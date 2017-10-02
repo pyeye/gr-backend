@@ -51,7 +51,7 @@ class Group(models.Model):
 
 class Price(models.Model):
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, blank=True, null=True, related_name='prices', verbose_name='Меню')
-    count = models.FloatField(null=True, blank=True, verbose_name='Количество (250/0.75)')
+    count = models.CharField(max_length=64, null=True, blank=True, verbose_name='Количество (250/0.75)')
     measure = models.CharField(max_length=64, null=True, blank=True, verbose_name='Ед. измерения (гр./шт./л./мл./на чаше')
     value = models.IntegerField(null=False, blank=False, verbose_name='Цена')
     extra = JSONField(blank=True, null=True, default={}, verbose_name='Дополнительно')
