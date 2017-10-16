@@ -4,7 +4,7 @@ from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from .serializers import MenuSerializer, CategorySerializer
 from .models import Menu, Category
-from apps.base.renderers import GRMenuRenderer
+from apps.base.renderers import GRMenuRenderer, GRMenuBreakfastRenderer
 
 
 class MenuViewSet(viewsets.ReadOnlyModelViewSet):
@@ -27,6 +27,18 @@ class MenuViewSet(viewsets.ReadOnlyModelViewSet):
                 queryset = Menu.objects.filter(is_lunch=True)
             else:
                 queryset = Menu.objects.filter(is_active=True, category__group__code=group)
+
+        return queryset
+
+
+class MenuBreakfastViewSet(viewsets.ReadOnlyModelViewSet):
+    BREAKFAST_GROUP = 'breakfast'
+
+    serializer_class = MenuSerializer
+    renderer_classes = (GRMenuBreakfastRenderer, JSONRenderer, BrowsableAPIRenderer)
+
+    def get_queryset(self):
+        queryset = Menu.objects.filter(is_active=True, category__group__code=self.BREAKFAST_GROUP)
 
         return queryset
 
