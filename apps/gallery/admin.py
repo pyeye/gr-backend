@@ -17,15 +17,12 @@ class AlbumAdmin(ImageCroppingMixin, admin.ModelAdmin):
     date_f.admin_order_field = 'created_at'
     date_f.short_description = 'Созданно'
 
-    def event_admin(self, obj):
-        return obj.event.name
-    event_admin.short_description = 'Событие'
-    event_admin.admin_order_field = 'event__name'
+
 
     inlines = [ImageInline]
-    list_display = ('event_admin', 'date_f')
+    list_display = ('name', 'date', 'date_f')
     date_hierarchy = 'created_at'
-    exclude = ('extra',)
+    exclude = ('event', 'extra')
 
 
 class ImageAdmin(admin.ModelAdmin):

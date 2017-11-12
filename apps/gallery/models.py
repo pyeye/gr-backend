@@ -24,7 +24,9 @@ def album_upload_location(instance, filename):
 
 
 class Album(models.Model):
-    event = models.ForeignKey(Event, related_name='album', null=False, blank=False, verbose_name='Мероприятие')
+    name = models.CharField(max_length=256, null=False, blank=False, verbose_name='Событие')
+    date = models.DateField(auto_now=False, null=False, blank=False, verbose_name='Дата')
+    event = models.ForeignKey(Event, related_name='album', null=True, blank=True, verbose_name='Мероприятие')
     created_at = models.DateTimeField(auto_now=True, null=False, blank=True, verbose_name='Созданно')
     is_active = models.BooleanField(default=True, null=False, blank=True, verbose_name='Активировано')
     main_image = models.ImageField(upload_to=album_upload_location, null=False, blank=False, verbose_name='Обложка')

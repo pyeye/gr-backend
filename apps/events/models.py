@@ -27,7 +27,7 @@ def showman_upload_location(instance, filename):
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Название')
+    name = models.CharField(max_length=255, null=False, blank=False, verbose_name='Название')
     artists = models.ManyToManyField('Artist', through='EventArtistRel',  blank=True, related_name='artists', verbose_name='Артисты')
     showmen = models.ManyToManyField('Showman', blank=True, related_name='showmen', verbose_name='Ведущие')
     info = models.TextField(null=True, blank=True, verbose_name='Дополнительная информация')

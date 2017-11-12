@@ -2,14 +2,8 @@ from rest_framework import serializers
 from versatileimagefield.serializers import VersatileImageFieldSerializer
 from image_cropping.utils import get_backend
 
-from apps.events.models import Event
 from .models import Album, Image
 
-
-class GalleryEventSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Event
-        fields = ('name', 'info', 'date')
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -23,7 +17,6 @@ class ImageSerializer(serializers.ModelSerializer):
 class AlbumSerializer(serializers.ModelSerializer):
     main_image = serializers.SerializerMethodField('get_crop_main_image')
     images = ImageSerializer(many=True, read_only=True)
-    event = GalleryEventSerializer(read_only=True)
 
     def get_crop_main_image(self, obj):
         thumbnail_url = get_backend().get_thumbnail_url(
@@ -51,13 +44,13 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ('pk',  'event', 'main_image', 'images')
+        fields = ('pk', 'name', 'date', 'main_image', 'images')
 
 
 class GallerySerializer(serializers.ModelSerializer):
     main_image = serializers.SerializerMethodField('get_images')
     image_count = serializers.IntegerField(source='images.count', read_only=True)
-    event = GalleryEventSerializer(read_only=True)
+
 
     def get_images(self, obj):
         thumbnail_url = get_backend().get_thumbnail_url(
@@ -85,4 +78,4 @@ class GallerySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ('pk', 'event', 'main_image', 'image_count')
+        fields = ('pk', 'name', 'date', 'main_image', 'image_count')
