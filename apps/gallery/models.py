@@ -36,7 +36,7 @@ class Album(models.Model):
     class Meta:
         verbose_name = 'Альбом'
         verbose_name_plural = 'Альбомы'
-        ordering = ['-event__date']
+        ordering = ['-date']
 
 
 class Image(models.Model):
